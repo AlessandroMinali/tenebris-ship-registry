@@ -291,96 +291,105 @@ Array.prototype.shuffle = function() {
   }
 }
 
-if (roll(100) == 1) {
-  frame = v_rare.sample();
-} else if (roll(36) == 1) {
-  frame = rare.sample();
-} else if (roll(10) == 1) {
-  frame = unusual.sample();
-} else {
-  frame = common.sample();
-}
-if (roll(100) == 1) {
-  op = roll_r(7, 30)
-  power = v_r_power.sample();
-} else if (roll(36) == 1) {
-  op = roll_r(9, 13)
-  power = r_power.sample();
-} else if (roll(10) == 1) {
-  op = roll_r(6, 10);
-  power = u_power.sample();
-} else {
-  op = roll_r(3, 7);
-  power = c_power.sample();
-}
-
-dis = document.getElementById('display');
-dis.innerText += "WARNING: DETECTED UNKNOWN CRAFT\n";
-dis.innerText += "Scanning...\n";
-dis.innerText += "Auto-detecting model information...\n";
-dis.innerText += "Identified. Registered craft " + roll(100_000_000).toString(16) + "\n";
-dis.innerHTML += "Tracking heading and locked...\n\n";
-dis.innerText += "Frame: " + frame[0].toUpperCase() + "\n";
-dis.innerText += "Status:\n\tcondition " + frame[1] + "\n\tDR " + frame[2] + "\n\tfuel depot " + frame[3] + "\n";
-dis.innerText += "Engine: " + power[0].toUpperCase() + "\n";
-dis.innerText += "Status:\n\tpower " + op + "\n\tspeed " + power[1].toUpperCase() + "\n";
-
-general.shuffle();
-tech.shuffle();
-confrontation.shuffle();
-modules = [];
-confrontation_chance = [10, 20, 36];
-for(var i = 0; i < 3; i++) {
-  if (roll(confrontation_chance[i]) == 1) {
-    op = add_mod(op, confrontation.pop(), modules);
-  }
-}
-possible_mods = general.concat(tech);
-while(op != 0) {
-  op = add_mod(op, possible_mods.pop(), modules);
-}
-dis.innerText += "MODULES:"
-dis.innerText += modules.sort().map(el => "\n\t" + el[1] + "(" + el[0] + ")");
-dis.innerText += "\nDANGER ONBOARD: " + obstacle.sample() + " (triggered by " + trigger.sample().toUpperCase() + ")\n\n";
-
-// CREW
-c = document.getElementById('crew_details');
-crew = roll(6);
-c.innerText += "Personnel detected onboard...\n";
-c.innerText += "Scanning...\n";
-c.innerText += "Identified " + crew + " human-life forms onboard craft.\n";
-c.innerText += "Cross-referencing TENEBRIS civilian DB v." + roll(10000) + "." + roll(10000) + ":";
-for(var i = 0; i < crew; i++) {
-  c.innerText += "\n\n" + (i + 1) + ". " + first_name.sample() + " " + last_name.sample() + "(" + origin.sample() + ") | ";
-  if (roll(10) == 1) {
-    c.innerText += background.sample();
+function generate() {
+  if (roll(100) == 1) {
+    frame = v_rare.sample();
+  } else if (roll(36) == 1) {
+    frame = rare.sample();
+  } else if (roll(10) == 1) {
+    frame = unusual.sample();
   } else {
-    c.innerText += bg_1.sample() + " " + bg_2.sample();
+    frame = common.sample();
   }
-
-  c.innerText += "\nHP  " + roll(8) + "  ML  " + (roll(6) + roll(6)) +
-                   "  BDY " + stat() + "  DEX " + stat() + "  SVY " + stat() + "  TEC " + stat();
-  if (roll(10) == 1) { c.innerText += "\n" + armor.sample(); }
-  c.innerText += "\n" + weapon.sample();
-  if (roll(10) == 1) { c.innerText += "\n" + grenade.sample(); }
-
-  c.innerText += "\n" + look.sample() + " ";
-  if (roll(10) == 1) {
-    t = trait.sample();
-    t2 = [...trait].remove(t).sample().toLowerCase();
-    c.innerText += t + " and " + t2 + ".";
+  if (roll(100) == 1) {
+    op = roll_r(7, 30)
+    power = v_r_power.sample();
+  } else if (roll(36) == 1) {
+    op = roll_r(9, 13)
+    power = r_power.sample();
+  } else if (roll(10) == 1) {
+    op = roll_r(6, 10);
+    power = u_power.sample();
   } else {
-    c.innerText += impression.sample();
+    op = roll_r(3, 7);
+    power = c_power.sample();
   }
-}
-c.innerHTML += "\n\n<span class='small'>d: damage, c: condition, s: slots, u: uses</span>"
 
-// CONTRACT
-dis.innerText += "Searching for last port landing..."
-dis.innerText += "\nThis vessel is known to be on contract " + roll(1000000).toString(16) + ":";
-dis.innerText += "\nTASK:\t " + what.sample() + "\n";
-dis.innerText += "TARGET:\t " + object.sample() + "\n";
-dis.innerText += "WHO:\t " + person.sample() + "\n";
-dis.innerText += "WHY:\t " + event.sample() + "\n";
-dis.innerText += "WHERE:\t " + area.sample() + "/" + unknown.sample() + "\n";
-dis.innerText += "PAYMENT: " + payment.sample();
+  dis = document.getElementById('display');
+  dis.innerHTML = "";
+  dis.innerText += "WARNING: DETECTED UNKNOWN CRAFT\n";
+  dis.innerText += "Scanning...\n";
+  dis.innerText += "Auto-detecting model information...\n";
+  dis.innerText += "Identified. Registered craft " + roll(100_000_000).toString(16) + "\n";
+  dis.innerHTML += "Tracking heading and locked...\n\n";
+  dis.innerText += "Frame: " + frame[0].toUpperCase() + "\n";
+  dis.innerText += "Status:\n\tcondition " + frame[1] + "\n\tDR " + frame[2] + "\n\tfuel depot " + frame[3] + "\n";
+  dis.innerText += "Engine: " + power[0].toUpperCase() + "\n";
+  dis.innerText += "Status:\n\tpower " + op + "\n\tspeed " + power[1].toUpperCase() + "\n";
+
+  general.shuffle();
+  tech.shuffle();
+  confrontation.shuffle();
+  modules = [];
+  confrontation_chance = [10, 20, 36];
+  for(var i = 0; i < 3; i++) {
+    if (roll(confrontation_chance[i]) == 1) {
+      op = add_mod(op, confrontation.pop(), modules);
+    }
+  }
+  possible_mods = general.concat(tech);
+  while(op != 0) {
+    op = add_mod(op, possible_mods.pop(), modules);
+  }
+  dis.innerText += "MODULES:"
+  dis.innerText += modules.sort().map(el => "\n\t" + el[1] + "(" + el[0] + ")");
+  dis.innerText += "\nDANGER ONBOARD: " + obstacle.sample() + " (triggered by " + trigger.sample().toUpperCase() + ")\n\n";
+
+  // CREW
+  c = document.getElementById('crew_details');
+  c.innerHTML = "";
+  crew = roll(6);
+  c.innerText += "Personnel detected onboard...\n";
+  c.innerText += "Scanning...\n";
+  c.innerText += "Identified " + crew + " human-life forms onboard craft.\n";
+  c.innerText += "Cross-referencing TENEBRIS civilian DB v." + roll(10000) + "." + roll(10000) + ":";
+  for(var i = 0; i < crew; i++) {
+    c.innerText += "\n\n" + (i + 1) + ". " + first_name.sample() + " " + last_name.sample() + "(" + origin.sample() + ") | ";
+    if (roll(10) == 1) {
+      c.innerText += background.sample();
+    } else {
+      c.innerText += bg_1.sample() + " " + bg_2.sample();
+    }
+
+    c.innerText += "\nHP  " + roll(8) + "  ML  " + (roll(6) + roll(6)) +
+                     "  BDY " + stat() + "  DEX " + stat() + "  SVY " + stat() + "  TEC " + stat();
+    if (roll(10) == 1) { c.innerText += "\n" + armor.sample(); }
+    c.innerText += "\n" + weapon.sample();
+    if (roll(10) == 1) { c.innerText += "\n" + grenade.sample(); }
+
+    c.innerText += "\n" + look.sample() + " ";
+    if (roll(10) == 1) {
+      t = trait.sample();
+      t2 = [...trait].remove(t).sample().toLowerCase();
+      c.innerText += t + " and " + t2 + ".";
+    } else {
+      c.innerText += impression.sample();
+    }
+  }
+  c.innerHTML += "\n\n<span class='small'>d: damage, c: condition, s: slots, u: uses</span>"
+
+  // CONTRACT
+  dis.innerText += "Searching for last port landing..."
+  dis.innerText += "\nThis vessel is known to be on contract " + roll(1000000).toString(16) + ":";
+  dis.innerText += "\nTASK:\t " + what.sample() + "\n";
+  dis.innerText += "TARGET:\t " + object.sample() + "\n";
+  dis.innerText += "WHO:\t " + person.sample() + "\n";
+  dis.innerText += "WHY:\t " + event.sample() + "\n";
+  dis.innerText += "WHERE:\t " + area.sample() + "/" + unknown.sample() + "\n";
+  dis.innerText += "PAYMENT: " + payment.sample();
+}
+
+generate();
+document.getElementById("scan").addEventListener("click", function() {
+  generate();
+})

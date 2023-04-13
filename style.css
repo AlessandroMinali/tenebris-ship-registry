@@ -488,7 +488,7 @@ smartphone*/
   margin-left: 10%;
 }
 #about {
-  font-size: 11px;
+  font-size: 10px;
   white-space: pre-wrap;
   opacity: 0.4;
 }
@@ -521,4 +521,17 @@ smartphone*/
 }
 .small {
   font-size: 10px;
+}
+#scan {
+  background: red;
+  outline: 5px red solid;
+  border: white 1px solid;
+  padding: 10px;
+  max-width: 150px;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+#scan:hover {
+  opacity: 0.9;
 }
