@@ -364,7 +364,7 @@ function generate() {
   last_name_dup = [...last_name.shuffle()];
   background_dup = [...background.shuffle()];
   bg_1_dup = [...bg_1.shuffle()];
-  bg_2_dup = [...bg_1.shuffle()];
+  bg_2_dup = [...bg_2.shuffle()];
   look_dup = [...look.shuffle()];
   trait_dup = [...trait.shuffle()];
   impression_dup = [...impression.shuffle()];
