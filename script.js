@@ -66,28 +66,31 @@ const bg_2 = [
   "hunter", "outlaw", "crew", "hijacker", "merchant", "bandit", "hauler"
 ]
 const impression = [
-  "So polite it hurts. Always stares at people’s teeth.",
-  "Reckless in combat. Boasts about what they did in the war. Whistles war hymns.",
-  "Cautious around others. Moves slowly if you stare at them.",
-  "Talks with a vibrant language and large gestures. Constantly snacking on something.",
-  "Hard-boiled with scars. Keeps looking behind objects like they could be trapped.",
-  "Relentless and unnecessarily rough. Has several homemade augmented reality tattoos.",
-  "Perfectionist with control issues. Swallows strange colorful pills every now and then.",
-  "Nearsighted. Looks at people like they want to eat them.",
-  "Just overall creepy. Long nails, teeth and hair.",
-  "Lazy and talkative. Wears very, very thick 3D glasses.",
-  "Has control issues and needs a plan for everything. Won’t look people in the eyes.",
-  "Too old for this shit. Gray-haired, smoking actual, real cigars.",
-  "Speaks with a unique accent. Disarming gaze.",
-  "Bored and jaded. Frustrated about small things.",
-  "Old-fashioned. Never smiles. Likes things simple.",
+  "Always stares at people’s teeth.",
+  "Reckless in combat.", "Boasts about what they did in the war.", "Whistles war hymns.",
+  "Cautious around others.", "Moves slowly if you stare at them.",
+  "Talks with a vibrant language and large gestures.", "Constantly snacking on something.",
+  "Hard-boiled with scars.", "Keeps looking behind objects like they could be trapped.",
+  "Has several homemade augmented reality tattoos.",
+  "Perfectionist with control issues.", "Swallows strange colorful pills every now and then.",
+  "Nearsighted.", "Looks at people like they want to eat them.",
+  "Just overall creepy.", "Long nails, teeth and hair.",
+  "Wears very, very thick 3D glasses.",
+  "Has control issues and needs a plan for everything.", "Won’t look people in the eyes.",
+  "Too old for this shit.", "Gray-haired, smoking actual, real cigars.",
+  "Speaks with a unique accent.", "Disarming gaze.",
+  "Frustrated about small things.",
+  "Old-fashioned.", "Never smiles.", "Likes things simple.",
   "Calm, cold and calculated with a stiff body language.",
   "Caring and helpful but hates being touched.",
-  "Peaceful, soft-spoken. Soft, gentle movements.",
+  "Peaceful, soft-spoken.", "Soft, gentle movements.",
   "Pessimist, with a fake smile.",
   "Sad and distant, I have seen colony crafts on fire off the shoulders of...",
 ]
 const trait = [
+  "Bored",
+  "Jaded",
+  "So polite it hurts",
   "Polite",
   "Optimist",
   "Cynical",
@@ -102,12 +105,15 @@ const trait = [
   "Nearsighted",
   "Creepy",
   "Lazy",
+  "Talkative",
   "Inventive",
   "Rough",
+  "Unnecessarily rough",
   "Hard-boiled",
   "Savage",
   "Passionate",
-  "Too old for this shit."
+  "Endlessly aggravated", "Inferiority complex", "Problems with authority", "Loud mouth", "Cruel", "Egocentric", "Nihilistic", "Prone to substance abuse", "Conflicted", "Shrewd", "Vindictive", "Cowardly", "Lazy", "Suspicious", "Ruthless", "Worried", "Bitter", "Deceitful", "Wasteful", "Arrogant", "Abrasive", "Mannerless", "Self-assured", "Fanatical", "Hypocritical", "Eccentric", "Morbid", "One-sided", "Enigmatic", "Hesitant", "Scared of commitment", "Aggressive", "Shortsighted", "Stubborn", "Mischievous", "Grim", "Ritualistic", "Brutal", "Unpredictable", "Prejudiced", "Vulgar", "Sloppy", "Impulsive", "Calculating", "Pedantic", "Gullible", "Demanding", "Whiny", "Ungrateful", "Hedonistic", "Shallow", "Fearless", "Scheming", "Nagging", "Fatalistic", "Defensive", "Hateful", "Argumentative", "Tormenting", "Self-conscious", "Irresponsible", "Melancholic", "Arbitrary", "Inconsistent", "Imitative", "Sarcastic", "Rude", "Vain", "Petty", "Resentful", "Disloyal", "Strict", "Anarchistic", "Dependent", "Snobbish", "Untrusting", "Assertive", "Charmless", "Pompous", "Greedy", "Tactless", "Unhelpful", "Anxious", "Gloomy", "Undisciplined", "Careless", "Nosy", "Domineering", "Dull", "Rebellious",
+  "Chainsmoker", "Chews on hair", "Compulsive swearing", "Constantly watching holos", "Coughs", "Fiddles with jewelry", "Flirty", "Gestures a lot", "Giggles inappropriately", "Hat/hood and shades, always", "Itchy", "Loudly chews gum", "Must tag every location", "Never look anyone in the eye", "Nosepicker", "Rapid blinking", "Reeks of lighter fluid", "Scratches facial scar", "Twitchy", "Wheezes",
 ]
 const look = [
   "Filthy EVA suit.", "Fashionable robotic hands.",
@@ -127,13 +133,13 @@ const look = [
   "Embroidered helmets, faux fur, and dark cloth with symbols showing affiliation.",
   "Patched up clothes, mixture of many materials and tech.",
   "Reinforced blue and yellow workwear with patches from all the spacedocks in Tenebris.",
-  "Boots and vests. Strange fancy caps.",
+  "Boots and vests.", "Strange fancy caps.",
   "Flamboyant robes in reflective materials.",
   "Torn, old space docket jacket.",
   "Foreign, realisitic tattos.",
   "Filthy, dark makeup",
   "Undersized hologlasses.",
-  "Perfectly weather clothes.",
+  "Perfectly weathered clothes.",
   "Botany patches on arms and back saying 'I love plants'.",
   "Fashionable interstellar clothes.",
   "Too clean civilian clothes.",
@@ -289,6 +295,7 @@ Array.prototype.shuffle = function() {
     this[i] = this[j];
     this[j] = temp;
   }
+  return this;
 }
 
 function generate() {
@@ -327,17 +334,16 @@ function generate() {
   dis.innerText += "Engine: " + power[0].toUpperCase() + "\n";
   dis.innerText += "Status:\n\tpower " + op + "\n\tspeed " + power[1].toUpperCase() + "\n";
 
-  general.shuffle();
-  tech.shuffle();
-  confrontation.shuffle();
+  possible_mods = general.shuffle().concat(tech.shuffle());
+  confront_dup = [...confrontation.shuffle()];
   modules = [];
   confrontation_chance = [10, 20, 36];
+
   for(var i = 0; i < 3; i++) {
     if (roll(confrontation_chance[i]) == 1) {
-      op = add_mod(op, confrontation.pop(), modules);
+      op = add_mod(op, confront_dup.pop(), modules);
     }
   }
-  possible_mods = general.concat(tech);
   while(op != 0) {
     op = add_mod(op, possible_mods.pop(), modules);
   }
@@ -353,27 +359,36 @@ function generate() {
   c.innerText += "Scanning...\n";
   c.innerText += "Identified " + crew + " human-life forms onboard craft.\n";
   c.innerText += "Cross-referencing TENEBRIS civilian DB v." + roll(10000) + "." + roll(10000) + ":";
+
+  first_name_dup = [...first_name.shuffle()];
+  last_name_dup = [...last_name.shuffle()];
+  background_dup = [...background.shuffle()];
+  bg_1_dup = [...bg_1.shuffle()];
+  bg_2_dup = [...bg_1.shuffle()];
+  look_dup = [...look.shuffle()];
+  trait_dup = [...trait.shuffle()];
+  impression_dup = [...impression.shuffle()];
+
   for(var i = 0; i < crew; i++) {
-    c.innerText += "\n\n" + (i + 1) + ". " + first_name.sample() + " " + last_name.sample() + "(" + origin.sample() + ") | ";
+    c.innerText += "\n\n" + (i + 1) + ". " + first_name_dup.pop() + " " + last_name_dup.pop() + "(" + origin.sample() + ") | ";
     if (roll(10) == 1) {
-      c.innerText += background.sample();
+      c.innerText += background_dup.pop();
     } else {
-      c.innerText += bg_1.sample() + " " + bg_2.sample();
+      c.innerText += bg_1_dup.pop() + " " + bg_2_dup.pop();
     }
 
     c.innerText += "\nHP  " + roll(8) + "  ML  " + (roll(6) + roll(6)) +
                      "  BDY " + stat() + "  DEX " + stat() + "  SVY " + stat() + "  TEC " + stat();
-    if (roll(10) == 1) { c.innerText += "\n" + armor.sample(); }
-    c.innerText += "\n" + weapon.sample();
-    if (roll(10) == 1) { c.innerText += "\n" + grenade.sample(); }
+    if (roll(10) == 1) { c.innerText += "\n" + armor.pop(); }
+    c.innerText += "\n" + weapon.pop();
+    if (roll(10) == 1) { c.innerText += "\n" + grenade.pop(); }
 
-    c.innerText += "\n" + look.sample() + " ";
-    if (roll(10) == 1) {
-      t = trait.sample();
-      t2 = [...trait].remove(t).sample().toLowerCase();
-      c.innerText += t + " and " + t2 + ".";
+    c.innerText += "\n" + look_dup.pop() + " ";
+    c.innerText += trait_dup.pop() + " and ";
+    if (roll(6) == 1) {
+      c.innerText += trait_dup.pop().toLowerCase() + ".";
     } else {
-      c.innerText += impression.sample();
+      c.innerText += impression_dup.pop().toLowerCase();
     }
   }
   c.innerHTML += "\n\n<span class='small'>d: damage, c: condition, s: slots, u: uses</span>"
