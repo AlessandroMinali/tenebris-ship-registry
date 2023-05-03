@@ -35,7 +35,7 @@ const first_name = [
   "Ichiro", "Koa", "Ravi", "Mishka", "Yuma", "Roy", "Fushigi", "Mateo", "Aiko",
   "Ezra", "Bo", "Elizi", "Hina", "Iwata", "Baker", "Bowie", "Rowa", "Mirai",
   "Kev", "Khari", "Isa", "Lovi", "Sura", "Anik", "Nauja", "Sheyma", "Mira",
-  "Yatin", "Yuval", "Jienni", "Tami", "Mufasa"
+  "Yatin", "Yuval", "Jienni", "Tami", "Mufasa", "Ao", "Bell", "Blink", "Clock", "Cord", "Duzi", "Fase", "Fu", "Glam", "Glare", "Gul", "Hira", "Hla", "Ia", "Kei", "Key", "Lhamo", "Måne", "Mehr", "Mille", "Mpho", "Nur", "Phix", "Reeve", "Riz", "Shade", "Soma", "Tick", "Vac", "Wick", "Xleo", "Yann", "Zalec", "Zenit", "Zign", "Zola"
 ]
 const last_name = [
   "Grozo", "Rife", "Shimasu", "Aiseke", "Helm", "Astreio", "Tungertok",
@@ -361,7 +361,6 @@ function generate() {
   c.innerText += "Cross-referencing TENEBRIS civilian DB v." + roll(10000) + "." + roll(10000) + ":";
 
   first_name_dup = [...first_name.shuffle()];
-  last_name_dup = [...last_name.shuffle()];
   background_dup = [...background.shuffle()];
   bg_1_dup = [...bg_1.shuffle()];
   bg_2_dup = [...bg_2.shuffle()];
@@ -370,7 +369,7 @@ function generate() {
   impression_dup = [...impression.shuffle()];
 
   for(var i = 0; i < crew; i++) {
-    c.innerText += "\n\n" + (i + 1) + ". " + first_name_dup.pop() + " " + last_name_dup.pop() + "(" + origin.sample() + ") | ";
+    c.innerText += "\n\n" + (i + 1) + ". " + first_name_dup.pop() + " " + last_name.sample() + "(" + origin.sample() + ") | ";
     if (roll(10) == 1) {
       c.innerText += background_dup.pop();
     } else {
